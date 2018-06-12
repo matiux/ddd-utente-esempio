@@ -51,7 +51,7 @@ doctrine:
         default_table_options:
           charset: utf8
           collate: utf8_general_ci
-        server_version: %mysql_version% # workaround for composer install database not exists error
+        server_version: '%mysql_version%' # workaround for composer install database not exists error
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'

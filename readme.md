@@ -134,3 +134,24 @@ Il token dovrà essere passato a tutte le future chiamate tramite header:
 Authorization: Bearer [token]
 ```
 La durata del token è dettata dal parametro `auth_expiration` nel file `parameters.yml` e di default è di 8 ore
+
+## Vedere un utente
+
+#### Rotta
+```
+GET /v1/utente/{utenteId}
+```
+E' necessario essere autenticati passando un token jwt tramite header:
+```
+Authorization: Bearer [token]
+```
+#### Responso
+```json
+{
+    "email": "utente@daclient.it",
+    "id": "dd1a2f8e-796e-4ebe-afc7-d3e7c5c8b391",
+    "ruolo": "user",
+    "enabled": true,
+    "locked": false
+}
+```

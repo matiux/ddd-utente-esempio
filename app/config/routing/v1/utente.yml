@@ -11,3 +11,10 @@ dddapp_v1_login_utente:
   methods: [POST]
   requirements:
     _format: json
+
+dddapp_v1_show_utente:
+  path: /utente/{utenteId}
+  defaults: { _controller: UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente\UtenteController::getShowUtente }
+  methods: [GET]
+  requirements:
+    _format: json

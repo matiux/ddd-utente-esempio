@@ -19,6 +19,12 @@ services:
     class: UtenteDDDExample\Infrastructure\Application\DataTransformer\Jwt\JwtUtenteAutenticatoArrayDataTransformer
     public: false
 
+  dddapp.show_utente.service:
+    class: UtenteDDDExample\Application\Service\Utente\ShowUtenteService
+    arguments:
+      - '@dddapp.utente.repository'
+      - '@dddapp.utente_array.data_transformer'
+
   dddapp.transactional.create_utente.service:
     class: DDDStarterPack\Application\Service\TransactionalApplicationService
     arguments:

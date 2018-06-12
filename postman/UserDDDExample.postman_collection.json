@@ -25,6 +25,28 @@
 			"response": []
 		},
 		{
+			"name": "Show utente",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php/v1/utente/30aac4e1-0573-4610-b815-8361018b15cd",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{server}}{{port}}"
+					],
+					"path": [
+						"app_dev.php",
+						"v1",
+						"utente",
+						"30aac4e1-0573-4610-b815-8361018b15cd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Signup",
 			"request": {
 				"method": "POST",
