@@ -1,0 +1,8 @@
+services:
+
+  dddapp.create_utente.command:
+    class: UtenteDDDExample\Infrastructure\Delivery\Console\Utente\CreateUtenteCommand
+    tags:
+      - { name: 'console.command' }
+    arguments:
+      - '@dddapp.transactional.create_utente.service'

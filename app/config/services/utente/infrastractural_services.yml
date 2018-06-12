@@ -1,0 +1,56 @@
+services:
+
+  dddapp.utente_hashing_password.service:
+    class: UtenteDDDExample\Infrastructure\Domain\Model\Utente\BasicPasswordHashing
+
+  dddapp.utente_authenticator.service:
+    class: UtenteDDDExample\Infrastructure\Domain\Service\Utente\Jwt\Lcobucci\JwtLcobucciUtenteAuthenticator
+    arguments:
+      - '%auth_expiration%'
+      - '@dddapp.auth_token_signer'
+
+  dddapp.auth_token_signer:
+    class: UtenteDDDExample\Infrastructure\Domain\Model\Utente\AuthToken\Jwt\Lcobucci\JwtLcobucciSigner
+    arguments:
+      - '%secret%'
+
+  dddapp.token_authenticated_controller.listener:
+    class: UtenteDDDExample\Infrastructure\Listener\TokenAuthenticatedControllerListener
+    arguments:
+      - '@dddapp.is_utente_authenticated'
+    tags:
+      - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+  dddapp.auth_token_finder:
+    class: UtenteDDDExample\Infrastructure\Domain\Service\Utente\AuthToken\AuthTokenFinder\Jwt\JwtAuthTokenFinder
+    arguments:
+      - '@dddapp.utente_authenticator.service'
+
+  dddapp.header_specific_auth_token_finder:
+    class: UtenteDDDExample\Infrastructure\Domain\Service\Utente\AuthToken\AuthTokenFinder\Jwt\HeaderSpecificAuthTokenFinder
+    tags:
+      - name: dddapp.specific_auth_token_finder
+        priority: 110
+
+  dddapp.query_string_specific_auth_token_finder:
+    class: UtenteDDDExample\Infrastructure\Domain\Service\Utente\AuthToken\AuthTokenFinder\Jwt\QueryStringAuthTokenFinder
+    tags:
+      - name: dddapp.specific_auth_token_finder
+        priority: 100
+
+  dddapp.utente_from_auth_token:
+    class: UtenteDDDExample\Infrastructure\Domain\Service\Utente\Jwt\JwtUtenteFromAuthToken
+    arguments:
+      - '@dddapp.utente.repository'
+
+  dddapp.auth_token_storage:
+    class: UtenteDDDExample\Infrastructure\Domain\Model\Utente\AuthToken\Jwt\AuthTokenStorage\JwtSessionAuthTokenStorage
+
+  dddapp.utente.repository:
+    class: UtenteDDDExample\Infrastructure\Domain\Model\Utente\Doctrine\DoctrineUtenteRepository
+    factory: ['@doctrine', getRepository]
+    arguments: ['UtenteDDDExample\Domain\Model\Utente\Utente']
+
+  dddapp.doctrine_transactional_session:
+    class: UtenteDDDExample\Infrastructure\Application\Persistence\Doctrine\DoctrineSession
+    arguments: ['@doctrine.orm.entity_manager']

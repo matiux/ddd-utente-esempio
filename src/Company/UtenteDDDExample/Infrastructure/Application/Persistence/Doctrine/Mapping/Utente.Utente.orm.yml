@@ -1,0 +1,24 @@
+UtenteDDDExample\Domain\Model\Utente\Utente:
+  type: entity
+  table: utenti
+  repositoryClass: UtenteDDDExample\Infrastructure\Domain\Model\Utente\Doctrine\DoctrineUtenteRepository
+  id:
+    utenteId:
+      type: UtenteId
+      column: id
+  fields:
+    email:
+      type: EmailUtente
+      nullable: false
+    password:
+      type: HashedPasswordUtente
+      nullable: false
+    ruolo:
+      type: Ruolo
+      nullable: false
+    enabled:
+      type: boolean
+      nullable: false
+    locked:
+      type: boolean
+      nullable: false

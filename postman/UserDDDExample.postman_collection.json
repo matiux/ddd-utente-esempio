@@ -1,0 +1,86 @@
+{
+	"info": {
+		"_postman_id": "08cfed95-e7d1-4cac-baf5-278e4c33ff00",
+		"name": "UserDDDExample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{server}}{{port}}"
+					],
+					"path": [
+						"app_dev.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"mat@dominio.it\",\n\t\"password\": \"281285d\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php/v1/signup",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{server}}{{port}}"
+					],
+					"path": [
+						"app_dev.php",
+						"v1",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"mat@dominio.it\",\n\t\"password\": \"281285d\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php/v1/login",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{server}}{{port}}"
+					],
+					"path": [
+						"app_dev.php",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

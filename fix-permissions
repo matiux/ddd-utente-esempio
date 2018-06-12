@@ -1,0 +1,9 @@
+#!/bin/bash
+
+WRITABLE_DIRS="var"
+
+PHP_USER=$(getent passwd "1000" | cut -d: -f1)
+HTTPD_USER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1)
+
+setfacl -dR -m u:$HTTPD_USER:rwX -m u:$PHP_USER:rwX $WRITABLE_DIRS
+setfacl -R -m u:$HTTPD_USER:rwX -m u:$PHP_USER:rwX $WRITABLE_DIRS

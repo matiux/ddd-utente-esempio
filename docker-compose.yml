@@ -1,0 +1,57 @@
+version: '3'
+
+volumes:
+  app_database: {}
+  app_memcached: {}
+
+services:
+  nginx:
+    image: matiux/nginx:symfony-2.0.0
+    ports:
+      - '8080:80'
+    depends_on:
+      - php
+    volumes:
+      - ./docker/logs/nginx/:/var/log/nginx
+      - ./:/var/www/app
+  php:
+    build: ./docker/php
+    #image: matiux/php:7.1-fpm
+    tty: true # -t option in docker
+    stdin_open: true # -i option in docker
+    hostname: app_hostname
+    volumes:
+      - ./:/var/www/app
+      - ./docker/data/composer:/home/utente/.composer
+    environment:
+      - APP_ENV=${APP_ENV}
+  servicedb:
+    image: mysql:5.7
+    #restart: always
+    volumes:
+      #- ./docker/data/db:/var/lib/mysql
+      - app_database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DOCKER_MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=app_db
+      # - MYSQL_USER=app_db_user
+      # - MYSQL_PASSWORD=
+    command: mysqld --sql_mode="" #Per mysql
+    ports:
+      - '3307:3306'
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    depends_on:
+      - servicedb
+    environment:
+      - PMA_HOST=servicedb
+  servicememcached:
+    image: memcached:latest
+    volumes:
+      - app_memcached:/var/lib/memcached
+  # redis_db:
+  #   image: redis:alpine
+  #   #command: redis-server --requirepass redis
+  #   ports: ["6379"]

@@ -1,0 +1,7 @@
+home:
+  path: /
+  defaults: { _controller: UtenteDDDExample\Infrastructure\Delivery\Http\Controller\DefaultController::indexAction }
+
+dddapp_v1_utente:
+  resource: routing/v1/utente.yml
+  prefix: /v1

@@ -1,0 +1,26 @@
+services:
+  dddapp.create_utente.service:
+    class: UtenteDDDExample\Application\Service\Utente\CreateUtenteService
+    arguments:
+      - '@dddapp.signup_utente'
+      - '@dddapp.utente_array.data_transformer'
+
+  dddapp.login_utente.service:
+    class: UtenteDDDExample\Application\Service\Utente\LoginUtenteService
+    arguments:
+      - '@dddapp.signin_utente'
+      - '@dddapp.utente_autenticato_array.data_transformer'
+
+  dddapp.utente_array.data_transformer:
+    class: UtenteDDDExample\Application\DataTransformer\Utente\UtenteArrayDataTransformer
+    public: false
+
+  dddapp.utente_autenticato_array.data_transformer:
+    class: UtenteDDDExample\Infrastructure\Application\DataTransformer\Jwt\JwtUtenteAutenticatoArrayDataTransformer
+    public: false
+
+  dddapp.transactional.create_utente.service:
+    class: DDDStarterPack\Application\Service\TransactionalApplicationService
+    arguments:
+      - '@dddapp.create_utente.service'
+      - '@dddapp.doctrine_transactional_session'

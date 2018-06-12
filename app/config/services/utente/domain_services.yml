@@ -1,0 +1,22 @@
+services:
+
+  dddapp.signup_utente:
+    class: UtenteDDDExample\Domain\Service\Utente\SignUpUtente
+    arguments:
+      - '@dddapp.utente.repository'
+      - '@dddapp.utente_hashing_password.service'
+
+  dddapp.signin_utente:
+    class: UtenteDDDExample\Domain\Service\Utente\SignInUtente
+    arguments:
+      - '@dddapp.utente.repository'
+      - '@dddapp.utente_hashing_password.service'
+      - '@dddapp.utente_authenticator.service'
+
+  dddapp.is_utente_authenticated:
+    class: UtenteDDDExample\Domain\Service\Utente\IsUtenteAuthenticated
+    arguments:
+      - '@dddapp.auth_token_finder'
+      - '@dddapp.auth_token_signer'
+      - '@dddapp.utente_from_auth_token'
+      - '@dddapp.auth_token_storage'

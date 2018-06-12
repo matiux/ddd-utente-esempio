@@ -1,0 +1,13 @@
+dddapp_v1_signup_utente:
+  path: /signup
+  defaults: { _controller: UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente\AuthController::postSignupUtente }
+  methods: [POST]
+  requirements:
+    _format: json
+
+dddapp_v1_login_utente:
+  path: /login
+  defaults: { _controller: UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente\AuthController::postLoginUtente }
+  methods: [POST]
+  requirements:
+    _format: json
