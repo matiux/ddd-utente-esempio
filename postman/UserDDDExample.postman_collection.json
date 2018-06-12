@@ -28,7 +28,12 @@
 			"name": "Show utente",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhN2M5OWNkOC1jMGY1LTQyNzgtOWNjMC0wNzY0MTg5MDcwNTMiLCJpYXQiOjE1Mjg4MzcwOTgsImV4cCI6MTUyODg2NTg5OCwic3ViIjoiNWE5YTk4YmMtN2QyNS00NmU0LWEyNzYtY2QyMzQwMTViMDliIn0.xzkw3wiZXBnlv16kaRKmP4GY2mpNyOmYPPethQpHLFk"
+					}
+				],
 				"body": {},
 				"url": {
 					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php/v1/utente/30aac4e1-0573-4610-b815-8361018b15cd",
