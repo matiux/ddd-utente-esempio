@@ -8,10 +8,8 @@ use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
 use UtenteDDDExample\Application\DataTransformer\Utente\UtenteArrayDataTransformer;
 use UtenteDDDExample\Application\Service\Utente\ShowUtenteRequest;
 use UtenteDDDExample\Application\Service\Utente\ShowUtenteService;
-use UtenteDDDExample\Domain\Model\Utente\Password\HashedPasswordUtente;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
 use UtenteDDDExample\Domain\Model\Utente\UtenteRepository;
-use UtenteDDDExample\Infrastructure\Domain\Model\Utente\BasicPasswordHashing;
 
 class ShowUtenteServiceTest extends DoctrineSupportKernelTestCase
 {
@@ -40,7 +38,7 @@ class ShowUtenteServiceTest extends DoctrineSupportKernelTestCase
         $this->utente = DoctrineUtenteBuilder::anUtente()
             ->withEnabled(true)
             ->withEmail('email@dominio.it')
-            ->withPassword(new HashedPasswordUtente((new BasicPasswordHashing())->hash('password')))
+            ->withPassword('password')
             ->withLocked(false)
             ->build();
 

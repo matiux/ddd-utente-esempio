@@ -5,6 +5,8 @@ namespace Tests\Domain\Service\Utente;
 use PHPUnit\Framework\TestCase;
 use Tests\Support\Builder\Doctrine\DoctrineUtenteBuilder;
 use UtenteDDDExample\Domain\Model\Utente\AuthToken\AuthToken;
+use UtenteDDDExample\Domain\Model\Utente\EmailUtente;
+use UtenteDDDExample\Domain\Model\Utente\Password\NotHashedPasswordUtente;
 use UtenteDDDExample\Domain\Model\Utente\Password\PasswordHashing;
 use UtenteDDDExample\Domain\Model\Utente\UtenteAutenticato;
 use UtenteDDDExample\Domain\Model\Utente\UtenteRepository;
@@ -52,7 +54,10 @@ class SignInUtenteTest extends TestCase
     {
         $this->utenteRepository->shouldReceive('byEmail')->andReturn(null);
 
-        $this->service->login('user@dominio.it', 'secure_psw');
+        $this->service->login(
+            new EmailUtente('user@dominio.it'),
+            new NotHashedPasswordUtente('secure_psw')
+        );
     }
 
     /**
@@ -63,11 +68,16 @@ class SignInUtenteTest extends TestCase
      */
     public function should_throw_exception_if_password_is_invalid()
     {
-        $utente = DoctrineUtenteBuilder::anUtente()->withPassword($this->passwordHashing->hash('password'))->build();
+        $utente = DoctrineUtenteBuilder::anUtente()
+            ->withPassword('password')
+            ->build();
 
         $this->utenteRepository->shouldReceive('byEmail')->andReturn($utente);
 
-        $this->service->login('user@dominio.it', 'secure_psw');
+        $this->service->login(
+            new EmailUtente('user@dominio.it'),
+            new NotHashedPasswordUtente('secure_psw')
+        );
     }
 
     /**
@@ -76,13 +86,18 @@ class SignInUtenteTest extends TestCase
      */
     public function it_should_sign_in_user()
     {
-        $utente = DoctrineUtenteBuilder::anUtente()->withPassword($this->passwordHashing->hash('password'))->build();
+        $utente = DoctrineUtenteBuilder::anUtente()
+            ->withPassword('password')
+            ->build();
 
         $this->utenteRepository->shouldReceive('byEmail')->andReturn($utente);
 
         $this->authenticator->shouldReceive('generateAuthToken')->andReturn(\Mockery::mock(AuthToken::class));
 
-        $utenteAutenticato = $this->service->login('user@dominio.it', 'password');
+        $utenteAutenticato = $this->service->login(
+            new EmailUtente('user@dominio.it'),
+            new NotHashedPasswordUtente('password')
+        );
 
         $this->assertInstanceOf(UtenteAutenticato::class, $utenteAutenticato);
         $this->assertSame($utenteAutenticato->utente(), $utente);

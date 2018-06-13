@@ -37,7 +37,7 @@ class LoginUtenteServiceTest extends DoctrineSupportKernelTestCase
         $this->passwordHashing = new BasicPasswordHashing();
 
         $this->utente = DoctrineUtenteBuilder::anUtente()
-            ->withPassword($this->passwordHashing->hash('secure_psw'))
+            ->withPassword('secure_psw')
             ->withEmail('user@dominio.it')
             ->withEnabled(true)
             ->build();

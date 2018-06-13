@@ -48,7 +48,7 @@ class JwtLcobucciUtenteAuthenticatorTest extends DoctrineSupportKernelTestCase
     {
         /** @var Utente $utente */
         $utente = DoctrineUtenteBuilder::anUtente()
-            ->withPassword($this->passwordHashing->hash('secure_psw'))
+            ->withPassword('secure_psw')
             ->withEmail('user@dominio.it')
             ->withEnabled(true)
             ->build();

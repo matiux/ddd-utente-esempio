@@ -4,6 +4,9 @@ namespace UtenteDDDExample\Application\Service\Utente;
 
 use DDDStarterPack\Application\Service\ApplicationService;
 use UtenteDDDExample\Application\DataTransformer\Utente\UtenteArrayDataTransformer;
+use UtenteDDDExample\Domain\Model\Utente\EmailUtente;
+use UtenteDDDExample\Domain\Model\Utente\Password\NotHashedPasswordUtente;
+use UtenteDDDExample\Domain\Model\Utente\Ruolo;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
 use UtenteDDDExample\Domain\Service\Utente\SignUpUtente;
 
@@ -32,7 +35,11 @@ class CreateUtenteService implements ApplicationService
         $ruolo = $request->getRuolo();
         $enabled = $request->isEnabled();
 
-        $utente = $this->signUpUtente->registra($email, $password, $ruolo);
+        $utente = $this->signUpUtente->registra(
+            new EmailUtente($email),
+            new NotHashedPasswordUtente($password),
+            new Ruolo($ruolo)
+        );
 
         !$enabled ?: $utente->enable();
 

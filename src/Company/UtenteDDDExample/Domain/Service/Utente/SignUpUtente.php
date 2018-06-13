@@ -22,15 +22,9 @@ class SignUpUtente
         $this->passwordHashing = $passwordHashing;
     }
 
-    public function registra(string $email, string $password, string $ruolo): Utente
+    public function registra(EmailUtente $email, NotHashedPasswordUtente $password, Ruolo $ruolo): Utente
     {
-        $email = new EmailUtente($email);
-        $password = new NotHashedPasswordUtente($password);
-        $ruolo = new Ruolo($ruolo);
-
-        /**
-         * Specification pattern
-         */
+        // Specification pattern
         $this->checkEmailIsUnique($email);
 
         $utenteId = $this->utenteRepository->nextIdentity();

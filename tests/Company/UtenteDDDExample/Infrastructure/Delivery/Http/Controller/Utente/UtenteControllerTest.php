@@ -9,12 +9,10 @@ use Symfony\Component\HttpKernel\Client;
 use Tests\Support\Builder\Doctrine\DoctrineUtenteBuilder;
 use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
 use UtenteDDDExample\Domain\Model\Utente\EmailUtente;
-use UtenteDDDExample\Domain\Model\Utente\Password\HashedPasswordUtente;
 use UtenteDDDExample\Domain\Model\Utente\Ruolo;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
 use UtenteDDDExample\Domain\Model\Utente\UtenteRepository;
 use UtenteDDDExample\Infrastructure\Domain\Model\Utente\AuthToken\Jwt\Lcobucci\JwtLcobucciSigner;
-use UtenteDDDExample\Infrastructure\Domain\Model\Utente\BasicPasswordHashing;
 use UtenteDDDExample\Infrastructure\Domain\Service\Utente\Jwt\Lcobucci\JwtLcobucciUtenteAuthenticator;
 
 class UtenteControllerTest extends WebTestCase
@@ -174,7 +172,7 @@ class UtenteControllerTest extends WebTestCase
         $utente = DoctrineUtenteBuilder::anUtente()
             ->withEnabled(true)
             ->withEmail('email@dominio.it')
-            ->withPassword(new HashedPasswordUtente((new BasicPasswordHashing())->hash('password')))
+            ->withPassword('password')
             ->withLocked(false)
             ->build();
 

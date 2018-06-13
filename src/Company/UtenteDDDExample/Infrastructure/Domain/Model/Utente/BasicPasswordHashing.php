@@ -8,15 +8,17 @@ use UtenteDDDExample\Domain\Model\Utente\Password\PasswordHashing;
 
 class BasicPasswordHashing implements PasswordHashing
 {
-    public function hash(string $password): HashedPasswordUtente
+    public function hash(NotHashedPasswordUtente $notHashedPasswordUtente): HashedPasswordUtente
     {
-        return new HashedPasswordUtente(password_hash($password, PASSWORD_DEFAULT));
+        $hashedPassword = password_hash((string)$notHashedPasswordUtente, PASSWORD_DEFAULT);
+
+        return new HashedPasswordUtente($hashedPassword);
     }
 
-    public function verify(NotHashedPasswordUtente $plainPassword, HashedPasswordUtente $hashedPassword): bool
+    public function verify(NotHashedPasswordUtente $notHashedPasswordUtente, HashedPasswordUtente $hashedPassword): bool
     {
         return password_verify(
-            (string)$plainPassword,
+            (string)$notHashedPasswordUtente,
             (string)$hashedPassword
         );
     }

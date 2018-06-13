@@ -4,6 +4,8 @@ namespace UtenteDDDExample\Application\Service\Utente;
 
 use DDDStarterPack\Application\Service\ApplicationService;
 use UtenteDDDExample\Application\DataTransformer\Utente\UtenteAutenticatoArrayDataTransformer;
+use UtenteDDDExample\Domain\Model\Utente\EmailUtente;
+use UtenteDDDExample\Domain\Model\Utente\Password\NotHashedPasswordUtente;
 use UtenteDDDExample\Domain\Model\Utente\UtenteAutenticato;
 use UtenteDDDExample\Domain\Service\Utente\SignInUtente;
 
@@ -34,7 +36,10 @@ class LoginUtenteService implements ApplicationService
         $email = $request->getEmail();
         $password = $request->getPassword();
 
-        $utenteAutenticato = $this->signInUtente->login($email, $password);
+        $utenteAutenticato = $this->signInUtente->login(
+            new EmailUtente($email),
+            new NotHashedPasswordUtente($password)
+        );
 
         return $utenteAutenticato;
     }

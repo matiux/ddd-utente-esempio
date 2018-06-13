@@ -43,9 +43,9 @@ class JwtLcobucciUtenteAuthenticator extends UtenteAuthenticator
         return $authTokenPayload;
     }
 
-    public function authTokenFromString(string $autjToken): AuthToken
+    public function authTokenFromString(string $authToken): AuthToken
     {
-        $token = (new Parser())->parse($autjToken);
+        $token = (new Parser())->parse($authToken);
 
         return new JwtLcobucciAuthToken($token);
     }

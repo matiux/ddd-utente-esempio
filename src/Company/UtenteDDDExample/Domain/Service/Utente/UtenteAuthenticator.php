@@ -25,5 +25,5 @@ abstract class UtenteAuthenticator
 
     abstract public function generateAuthToken(Utente $utente): AuthToken;
 
-    abstract public function authTokenFromString(string $autjToken): AuthToken;
+    abstract public function authTokenFromString(string $authToken): AuthToken;
 }

@@ -15,7 +15,6 @@ use UtenteDDDExample\Domain\Service\Utente\IsUtenteAuthenticated;
 use UtenteDDDExample\Domain\Service\Utente\UtenteAuthenticator;
 use UtenteDDDExample\Infrastructure\Domain\Model\Utente\AuthToken\Jwt\AuthTokenStorage\JwtInMemoryAuthTokenStorage;
 use UtenteDDDExample\Infrastructure\Domain\Model\Utente\AuthToken\Jwt\Lcobucci\JwtLcobucciSigner;
-use UtenteDDDExample\Infrastructure\Domain\Model\Utente\BasicPasswordHashing;
 use UtenteDDDExample\Infrastructure\Domain\Service\Utente\AuthToken\AuthTokenFinder\Jwt\HeaderSpecificAuthTokenFinder;
 use UtenteDDDExample\Infrastructure\Domain\Service\Utente\AuthToken\AuthTokenFinder\Jwt\JwtAuthTokenFinder;
 use UtenteDDDExample\Infrastructure\Domain\Service\Utente\AuthToken\AuthTokenFinder\Jwt\QueryStringAuthTokenFinder;
@@ -60,7 +59,7 @@ class JwtLcobucciIsUtenteAuthenticatedTest extends DoctrineSupportKernelTestCase
         $this->service = new IsUtenteAuthenticated($authTokenFinder, $this->signer, $utenteFromAuthToken, $this->authTokenStorage);
 
         $this->utente = DoctrineUtenteBuilder::anUtente()
-            ->withPassword((new BasicPasswordHashing())->hash('password'))
+            ->withPassword('password')
             ->withEmail('utente@dominio.it')
             ->withEnabled(true)
             ->build();

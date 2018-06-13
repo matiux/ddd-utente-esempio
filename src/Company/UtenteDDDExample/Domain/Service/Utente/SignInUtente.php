@@ -30,11 +30,8 @@ class SignInUtente
         $this->utenteAuthenticator = $utenteAuthenticator;
     }
 
-    public function login(string $email, string $notHashedPasswordUtente): UtenteAutenticato
+    public function login(EmailUtente $email, NotHashedPasswordUtente $notHashedPasswordUtente): UtenteAutenticato
     {
-        $email = new EmailUtente($email);
-        $notHashedPasswordUtente = new NotHashedPasswordUtente($notHashedPasswordUtente);
-
         $this->checkUtenteExists($email);
         $utente = $this->utenteRepository->byEmail($email);
         $this->checkUtenteEnabled($utente);

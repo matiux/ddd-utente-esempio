@@ -10,7 +10,6 @@ use UtenteDDDExample\Domain\Service\Utente\AuthToken\AuthTokenFinder\AuthTokenFi
 use UtenteDDDExample\Infrastructure\Domain\Model\Utente\AuthToken\Jwt\JwtAuthToken;
 use UtenteDDDExample\Infrastructure\Domain\Model\Utente\AuthToken\Jwt\Lcobucci\JwtLcobucciAuthToken;
 use UtenteDDDExample\Infrastructure\Domain\Model\Utente\AuthToken\Jwt\Lcobucci\JwtLcobucciSigner;
-use UtenteDDDExample\Infrastructure\Domain\Model\Utente\BasicPasswordHashing;
 use UtenteDDDExample\Infrastructure\Domain\Service\Utente\AuthToken\AuthTokenFinder\Jwt\HeaderSpecificAuthTokenFinder;
 use UtenteDDDExample\Infrastructure\Domain\Service\Utente\AuthToken\AuthTokenFinder\Jwt\JwtAuthTokenFinder;
 use UtenteDDDExample\Infrastructure\Domain\Service\Utente\AuthToken\AuthTokenFinder\Jwt\QueryStringAuthTokenFinder;
@@ -37,7 +36,7 @@ class JwtAuthTokenFinderTest extends DoctrineSupportKernelTestCase
         $this->service = new JwtAuthTokenFinder($authenticator);
 
         $utente = DoctrineUtenteBuilder::anUtente()
-            ->withPassword((new BasicPasswordHashing())->hash('password'))
+            ->withPassword('password')
             ->withEmail('utente@dominio.it')
             ->withEnabled(true)
             ->build();

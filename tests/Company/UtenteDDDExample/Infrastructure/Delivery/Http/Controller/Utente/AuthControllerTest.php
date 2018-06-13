@@ -4,8 +4,8 @@ namespace Tests\Infrastructure\Delivery\Http\Controller\Utente;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpKernel\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpKernel\Client;
 use Tests\Support\Builder\Doctrine\DoctrineUtenteBuilder;
 use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
 use UtenteDDDExample\Domain\Model\Utente\Password\PasswordHashing;
@@ -78,7 +78,7 @@ class AuthControllerTest extends WebTestCase
     public function post_login_invalid_password()
     {
         $utente = DoctrineUtenteBuilder::anUtente()
-            ->withPassword($this->passwordHashing->hash('secure_psw'))
+            ->withPassword('secure_psw')
             ->withEmail('user@dominio.it')
             ->withEnabled(true)
             ->build();
@@ -110,7 +110,7 @@ class AuthControllerTest extends WebTestCase
     public function post_login_not_enabled_utente()
     {
         $utente = DoctrineUtenteBuilder::anUtente()
-            ->withPassword($this->passwordHashing->hash('secure_psw'))
+            ->withPassword('secure_psw')
             ->withEmail('user@dominio.it')
             ->withEnabled(false)
             ->build();
@@ -142,7 +142,7 @@ class AuthControllerTest extends WebTestCase
     public function post_login_locked_utente()
     {
         $utente = DoctrineUtenteBuilder::anUtente()
-            ->withPassword($this->passwordHashing->hash('secure_psw'))
+            ->withPassword('secure_psw')
             ->withEmail('user@dominio.it')
             ->withEnabled(true)
             ->withLocked(true)
@@ -175,7 +175,7 @@ class AuthControllerTest extends WebTestCase
     public function post_login()
     {
         $utente = DoctrineUtenteBuilder::anUtente()
-            ->withPassword($this->passwordHashing->hash('secure_psw'))
+            ->withPassword('secure_psw')
             ->withEmail('user@dominio.it')
             ->build();
 
