@@ -25,33 +25,6 @@
 			"response": []
 		},
 		{
-			"name": "Show utente",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhN2M5OWNkOC1jMGY1LTQyNzgtOWNjMC0wNzY0MTg5MDcwNTMiLCJpYXQiOjE1Mjg4MzcwOTgsImV4cCI6MTUyODg2NTg5OCwic3ViIjoiNWE5YTk4YmMtN2QyNS00NmU0LWEyNzYtY2QyMzQwMTViMDliIn0.xzkw3wiZXBnlv16kaRKmP4GY2mpNyOmYPPethQpHLFk"
-					}
-				],
-				"body": {},
-				"url": {
-					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php/v1/utente/30aac4e1-0573-4610-b815-8361018b15cd",
-					"protocol": "{{protocol}}",
-					"host": [
-						"{{server}}{{port}}"
-					],
-					"path": [
-						"app_dev.php",
-						"v1",
-						"utente",
-						"30aac4e1-0573-4610-b815-8361018b15cd"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Signup",
 			"request": {
 				"method": "POST",
@@ -63,7 +36,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"mat@dominio.it\",\n\t\"password\": \"281285d\"\n}"
+					"raw": "{\n  \"email\": \"mat@email.it\",\n  \"password\": \"password\",\n  \"competenze\":\n  [\n  \t\"cucinare\", \"lavare\"\n  \t]\n}"
 				},
 				"url": {
 					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php/v1/signup",
@@ -92,7 +65,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"mat@dominio.it\",\n\t\"password\": \"281285d\"\n}"
+					"raw": "{\n  \"email\": \"admin@dominio.it\",\n  \"password\": \"password\"\n}"
 				},
 				"url": {
 					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php/v1/login",
@@ -104,6 +77,77 @@
 						"app_dev.php",
 						"v1",
 						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show utente",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJlYTgyMzE1OS04ZTU2LTQwNTYtODU5OS05ODg4ZTA1ZDY3NjMiLCJpYXQiOjE1MzAxMDQzMjIsImV4cCI6MTUzMDEzMzEyMiwic3ViIjoiY2U1ZDZhOGYtYzI0YS00ZmYyLWEwZTMtMzgwNDk0MzRkNzhlIn0.UqcGcwKVyUEVL2JiIPol33-XHGUDyXXYLebG4ml8r9s"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php/v1/utente/ce5d6a8f-c24a-4ff2-a0e3-38049434d78e",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{server}}{{port}}"
+					],
+					"path": [
+						"app_dev.php",
+						"v1",
+						"utente",
+						"ce5d6a8f-c24a-4ff2-a0e3-38049434d78e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enable utente",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjZTY4Njc2Mi0yNWNmLTRkMmMtYTVjMS00ZDIwZDRjNTMwNjUiLCJpYXQiOjE1MzAxMTA0ODQsImV4cCI6MTUzMDEzOTI4NCwic3ViIjoiMjMzYzc2YzEtMDAxNi00YTc1LWE5OGYtZmIzOWIxYzg4NWUwIn0.wVyeGG0r8WalFbiDsfFe7C85rU9pcRZgpknowj82p-c"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"value": "",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{protocol}}://{{server}}{{port}}/app_dev.php/v1/utente/730386c5-28fe-4789-ac84-1931ed69b03c/enable?{{Xdebug}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{server}}{{port}}"
+					],
+					"path": [
+						"app_dev.php",
+						"v1",
+						"utente",
+						"730386c5-28fe-4789-ac84-1931ed69b03c",
+						"enable"
+					],
+					"query": [
+						{
+							"key": "{{Xdebug}}",
+							"value": null
+						}
 					]
 				}
 			},

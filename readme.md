@@ -83,7 +83,11 @@ POST /v1/signup
 ```json
 {
 	"email":"utente@daclient.it",
-	"password": "lamiapassword"
+	"password": "lamiapassword",
+	"competenze":[
+	"Programmazione PHP",
+	"Programmazione a oggetti"
+	]
 }
 ```
 #### Responso
@@ -93,7 +97,18 @@ POST /v1/signup
     "id": "dd1a2f8e-796e-4ebe-afc7-d3e7c5c8b391",
     "ruolo": "user",
     "enabled": false,
-    "locked": false
+    "locked": false,
+    "competenze":
+    [
+      {
+        "id": "0188b3eb-4faf-415b-8dc7-87961d2929e1",
+        "name": "Programmazione PHP"
+      },
+      {
+        "id": "233c76c1-0016-4a75-a98f-fb39b1c885e0",
+        "name": "Programmazione a oggetti"
+      }
+    ]
 }
 ```
 ## Signin - Ottenere un token per il login
@@ -118,7 +133,18 @@ POST /v1/login
         "id": "dd1a2f8e-796e-4ebe-afc7-d3e7c5c8b391",
         "ruolo": "user",
         "enabled": true,
-        "locked": false
+        "locked": false,
+        "competenze":
+        [
+          {
+            "id": "0188b3eb-4faf-415b-8dc7-87961d2929e1",
+            "name": "Programmazione PHP"
+          },
+          {
+            "id": "233c76c1-0016-4a75-a98f-fb39b1c885e0",
+            "name": "Programmazione a oggetti"
+          }
+       ]
     },
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJlYjU5OWJhYy01NGJkLTQyMjMtYjI5NS1jOTUxNjA4YWFjMWEiLCJpYXQiOjE1Mjg0ODYyMTksImV4cCI6MTUyODUxNTAxOSwic3ViIjoiZGQxYTJmOGUtNzk2ZS00ZWJlLWFmYzctZDNlN2M1YzhiMzkxIn0.N50cTdFQMc0PS4UhZ5nqXuB_v8b6oOzyNLC16nNGNCI",
     "token_expire": 1528515019
@@ -147,6 +173,48 @@ Authorization: Bearer [token]
     "id": "dd1a2f8e-796e-4ebe-afc7-d3e7c5c8b391",
     "ruolo": "user",
     "enabled": true,
-    "locked": false
+    "locked": false,
+    "competenze":
+    [
+      {
+        "id": "0188b3eb-4faf-415b-8dc7-87961d2929e1",
+        "name": "Programmazione PHP"
+      },
+      {
+        "id": "233c76c1-0016-4a75-a98f-fb39b1c885e0",
+        "name": "Programmazione a oggetti"
+      }
+  ]
+}
+```
+## Abilitare un utente (solo Admin può farlo)
+
+#### Rotta
+```
+PATCH /v1/utente/{utenteId}/enable
+```
+E' necessario essere autenticati passando un token jwt tramite header:
+```
+Authorization: Bearer [token]
+```
+#### Responso
+```json
+{
+    "email": "utente@daclient.it",
+    "id": "dd1a2f8e-796e-4ebe-afc7-d3e7c5c8b391",
+    "ruolo": "user",
+    "enabled": true,
+    "locked": false,
+    "competenze":
+    [
+      {
+        "id": "0188b3eb-4faf-415b-8dc7-87961d2929e1",
+        "name": "Programmazione PHP"
+      },
+      {
+        "id": "233c76c1-0016-4a75-a98f-fb39b1c885e0",
+        "name": "Programmazione a oggetti"
+      }
+  ]
 }
 ```
