@@ -61,6 +61,13 @@ abstract class UtenteBuilder implements EntityBuilder
         return $this;
     }
 
+    public function withRuolo(string $ruolo): self
+    {
+        $this->ruolo = new Ruolo($ruolo);
+
+        return $this;
+    }
+
     public function withLocked(bool $locked): self
     {
         $this->locked = $locked;

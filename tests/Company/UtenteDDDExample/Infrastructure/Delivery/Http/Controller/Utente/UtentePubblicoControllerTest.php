@@ -6,7 +6,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\Client;
-use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
+use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineUtenteRepository;
 use UtenteDDDExample\Domain\Model\Utente\EmailUtente;
 use UtenteDDDExample\Domain\Model\Utente\Ruolo;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
@@ -14,8 +14,6 @@ use UtenteDDDExample\Domain\Model\Utente\UtenteRepository;
 
 class UtentePubblicoControllerTest extends WebTestCase
 {
-    use DummyDoctrineRepository;
-
     /** @var Client */
     private $webClient;
 
@@ -36,7 +34,7 @@ class UtentePubblicoControllerTest extends WebTestCase
         (new ORMPurger($this->em))->purge();
 
         $this->webClient = static::createClient();
-        $this->utenteRepository = $this->dummyDoctrineUtenteRepository();
+        $this->utenteRepository = new DummyDoctrineUtenteRepository($this->em, $this->em->getClassMetadata(Utente::class));
     }
 
     /**

@@ -68,7 +68,7 @@ Gli utenti creeati da shell vengono creati già abilitati `enabled = 1`
 #### Creazione utenti da shell
 ```
 Crea un admin
-./sf dddapp:create:utente utente@dominio.it password
+./sf dddapp:create:utente admin@dominio.it password
 
 Crea un utente disabilitato
 ./sf dddapp:create:utente user2@email.it password --ruolo user --abilitato false

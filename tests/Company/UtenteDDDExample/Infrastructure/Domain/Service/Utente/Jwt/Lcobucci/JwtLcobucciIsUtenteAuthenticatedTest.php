@@ -7,7 +7,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Tests\Support\Builder\Doctrine\DoctrineUtenteBuilder;
 use Tests\Support\DoctrineSupportKernelTestCase;
-use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
+use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineUtenteRepository;
 use UtenteDDDExample\Domain\Model\Utente\AuthToken\AuthTokenSigner;
 use UtenteDDDExample\Domain\Model\Utente\AuthToken\AuthTokenStorage;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
@@ -23,8 +23,6 @@ use UtenteDDDExample\Infrastructure\Domain\Service\Utente\Jwt\Lcobucci\JwtLcobuc
 
 class JwtLcobucciIsUtenteAuthenticatedTest extends DoctrineSupportKernelTestCase
 {
-    use DummyDoctrineRepository;
-
     /** @var IsUtenteAuthenticated */
     private $service;
 
@@ -52,7 +50,9 @@ class JwtLcobucciIsUtenteAuthenticatedTest extends DoctrineSupportKernelTestCase
         $authTokenFinder->addSpecificAuthTokenFinder(new HeaderSpecificAuthTokenFinder());
         $authTokenFinder->addSpecificAuthTokenFinder(new QueryStringAuthTokenFinder());
 
-        $utenteFromAuthToken = new JwtUtenteFromAuthToken($this->dummyDoctrineUtenteRepository());
+        $utenteRepository = new DummyDoctrineUtenteRepository($this->em, $this->em->getClassMetadata(Utente::class));
+
+        $utenteFromAuthToken = new JwtUtenteFromAuthToken($utenteRepository);
 
         $this->authTokenStorage = new JwtInMemoryAuthTokenStorage();
 
@@ -64,7 +64,7 @@ class JwtLcobucciIsUtenteAuthenticatedTest extends DoctrineSupportKernelTestCase
             ->withEnabled(true)
             ->build();
 
-        $this->dummyDoctrineUtenteRepository()->add($this->utente);
+        $utenteRepository->add($this->utente);
     }
 
 

@@ -18,3 +18,10 @@ dddapp_v1_show_utente:
   methods: [GET]
   requirements:
     _format: json
+
+dddapp_v1_enable_utente:
+  path: /utente/{utenteId}/enable
+  defaults: { _controller: UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente\UtentePrivatoController::patchEnableUtente }
+  methods: [PATCH]
+  requirements:
+    _format: json

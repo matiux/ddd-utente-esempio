@@ -41,7 +41,8 @@ class CreateUtenteCommand extends ContainerAwareCommand
         $password = $input->getArgument('password');
         $ruolo = $input->getOption('ruolo');
 
-        $competenze = explode(',', $input->getOption('competenze'));
+        $competenze = $input->getOption('competenze');
+        $competenze = !empty($competenze) ? explode(',', $competenze) : [];
         $enabled = $input->getOption('abilitato') === 'true' ? true : false;
 
         $this->createUtenteService->execute(

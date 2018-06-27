@@ -7,16 +7,15 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\Client;
 use Tests\Support\Builder\Doctrine\DoctrineUtenteBuilder;
-use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
+use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineUtenteRepository;
 use UtenteDDDExample\Domain\Model\Utente\Password\PasswordHashing;
+use UtenteDDDExample\Domain\Model\Utente\Utente;
 use UtenteDDDExample\Domain\Model\Utente\UtenteRepository;
 use UtenteDDDExample\Infrastructure\Domain\Model\Utente\BasicPasswordHashing;
 
 
 class AuthControllerTest extends WebTestCase
 {
-    use DummyDoctrineRepository;
-
     /** @var Client */
     private $webClient;
 
@@ -40,7 +39,7 @@ class AuthControllerTest extends WebTestCase
         (new ORMPurger($this->em))->purge();
 
         $this->webClient = static::createClient();
-        $this->utenteRepository = $this->dummyDoctrineUtenteRepository();
+        $this->utenteRepository = new DummyDoctrineUtenteRepository($this->em, $this->em->getClassMetadata(Utente::class));
 
         $this->passwordHashing = new BasicPasswordHashing();
     }
@@ -83,7 +82,7 @@ class AuthControllerTest extends WebTestCase
             ->withEnabled(true)
             ->build();
 
-        $this->dummyDoctrineUtenteRepository()->add($utente);
+        $this->utenteRepository->add($utente);
 
         $post = [
             'email' => 'user@dominio.it',
@@ -115,7 +114,7 @@ class AuthControllerTest extends WebTestCase
             ->withEnabled(false)
             ->build();
 
-        $this->dummyDoctrineUtenteRepository()->add($utente);
+        $this->utenteRepository->add($utente);
 
         $post = [
             'email' => 'user@dominio.it',
@@ -148,7 +147,7 @@ class AuthControllerTest extends WebTestCase
             ->withLocked(true)
             ->build();
 
-        $this->dummyDoctrineUtenteRepository()->add($utente);
+        $this->utenteRepository->add($utente);
 
         $post = [
             'email' => 'user@dominio.it',
@@ -179,7 +178,7 @@ class AuthControllerTest extends WebTestCase
             ->withEmail('user@dominio.it')
             ->build();
 
-        $this->dummyDoctrineUtenteRepository()->add($utente);
+        $this->utenteRepository->add($utente);
 
         $post = [
             'email' => 'user@dominio.it',

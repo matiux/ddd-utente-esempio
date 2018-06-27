@@ -2,33 +2,27 @@
 
 namespace UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use UtenteDDDExample\Application\Service\Utente\EnableUtenteByIdRequest;
 use UtenteDDDExample\Application\Service\Utente\ShowUtenteRequest;
-use UtenteDDDExample\Domain\Model\Utente\Exception\UtenteNotFoundException;
 use UtenteDDDExample\Infrastructure\Delivery\Http\Controller\TokenAuthenticatedController;
 
-class UtentePrivatoController extends Controller implements TokenAuthenticatedController
+class UtentePrivatoController extends UtenteController implements TokenAuthenticatedController
 {
     public function getShowUtente(string $utenteId)
     {
         $service = $this->get('dddapp.show_utente.service');
 
-        try {
+        $request = new ShowUtenteRequest($utenteId);
 
-            $utente = $service->execute(new ShowUtenteRequest($utenteId));
+        return $this->executeService($service, $request);
+    }
 
-            $response = new JsonResponse(json_encode($utente), 200, [], true);
+    public function patchEnableUtente($utenteId)
+    {
+        $service = $this->get('dddapp.transactional.enable_utente.service');
 
-            return $response;
+        $request = new EnableUtenteByIdRequest($utenteId);
 
-        } catch (UtenteNotFoundException $e) {
-
-            return new JsonResponse(json_encode(['message' => $e->getMessage()]), $e->getCode(), [], true);
-
-        } catch (\Exception $exception) {
-
-            throw $exception;
-        }
+        return $this->executeService($service, $request);
     }
 }

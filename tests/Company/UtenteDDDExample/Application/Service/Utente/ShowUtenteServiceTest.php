@@ -4,7 +4,7 @@ namespace Tests\Application\Service\Utente;
 
 use Tests\Support\Builder\Doctrine\DoctrineUtenteBuilder;
 use Tests\Support\DoctrineSupportKernelTestCase;
-use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
+use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineUtenteRepository;
 use UtenteDDDExample\Application\DataTransformer\Utente\UtenteArrayDataTransformer;
 use UtenteDDDExample\Application\Service\Utente\ShowUtenteRequest;
 use UtenteDDDExample\Application\Service\Utente\ShowUtenteService;
@@ -13,8 +13,6 @@ use UtenteDDDExample\Domain\Model\Utente\UtenteRepository;
 
 class ShowUtenteServiceTest extends DoctrineSupportKernelTestCase
 {
-    use DummyDoctrineRepository;
-
     /** @var ShowUtenteService */
     private $service;
 
@@ -28,7 +26,7 @@ class ShowUtenteServiceTest extends DoctrineSupportKernelTestCase
     {
         parent::setUp();
 
-        $this->utenteRepository = $this->dummyDoctrineUtenteRepository();
+        $this->utenteRepository = new DummyDoctrineUtenteRepository($this->em, $this->em->getClassMetadata(Utente::class));
 
         $this->service = new ShowUtenteService(
             $this->utenteRepository,

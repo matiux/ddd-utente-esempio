@@ -5,6 +5,7 @@ namespace Tests\Application\Service\Utente;
 use Tests\Support\Builder\Doctrine\DoctrineUtenteBuilder;
 use Tests\Support\DoctrineSupportKernelTestCase;
 use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
+use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineUtenteRepository;
 use UtenteDDDExample\Application\Service\Utente\LoginUtenteRequest;
 use UtenteDDDExample\Application\Service\Utente\LoginUtenteService;
 use UtenteDDDExample\Domain\Model\Utente\Password\PasswordHashing;
@@ -18,8 +19,6 @@ use UtenteDDDExample\Infrastructure\Domain\Service\Utente\Jwt\Lcobucci\JwtLcobuc
 
 class LoginUtenteServiceTest extends DoctrineSupportKernelTestCase
 {
-    use DummyDoctrineRepository;
-
     /** @var UtenteRepository */
     private $utenteRepository;
 
@@ -33,7 +32,7 @@ class LoginUtenteServiceTest extends DoctrineSupportKernelTestCase
     {
         parent::setUp();
 
-        $this->utenteRepository = $this->dummyDoctrineUtenteRepository();
+        $this->utenteRepository = new DummyDoctrineUtenteRepository($this->em, $this->em->getClassMetadata(Utente::class));
         $this->passwordHashing = new BasicPasswordHashing();
 
         $this->utente = DoctrineUtenteBuilder::anUtente()

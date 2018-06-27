@@ -42,3 +42,15 @@ services:
     arguments:
     - '@dddapp.register_utente.service'
     - '@dddapp.doctrine_transactional_session'
+
+  dddapp.enable_utente.service:
+    class: UtenteDDDExample\Application\Service\Utente\EnableUtenteByIdService
+    arguments:
+      - '@dddapp.enable_utente'
+      - '@dddapp.utente_array.data_transformer'
+
+  dddapp.transactional.enable_utente.service:
+    class: DDDStarterPack\Application\Service\TransactionalApplicationService
+    arguments:
+      - '@dddapp.enable_utente.service'
+      - '@dddapp.doctrine_transactional_session'

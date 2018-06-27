@@ -4,7 +4,7 @@ namespace Tests\Infrastructure\Domain\Service\Utente\Jwt\Lcobucci;
 
 use Tests\Support\Builder\Doctrine\DoctrineUtenteBuilder;
 use Tests\Support\DoctrineSupportKernelTestCase;
-use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
+use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineUtenteRepository;
 use UtenteDDDExample\Domain\Model\Utente\AuthToken\AuthToken;
 use UtenteDDDExample\Domain\Model\Utente\Password\PasswordHashing;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
@@ -17,8 +17,6 @@ use UtenteDDDExample\Infrastructure\Domain\Service\Utente\Jwt\Lcobucci\JwtLcobuc
 
 class JwtLcobucciUtenteAuthenticatorTest extends DoctrineSupportKernelTestCase
 {
-    use DummyDoctrineRepository;
-
     /** @var UtenteAuthenticator */
     private $authenticator;
 
@@ -53,7 +51,9 @@ class JwtLcobucciUtenteAuthenticatorTest extends DoctrineSupportKernelTestCase
             ->withEnabled(true)
             ->build();
 
-        $this->dummyDoctrineUtenteRepository()->add($utente);
+        $utenteRepository = new DummyDoctrineUtenteRepository($this->em, $this->em->getClassMetadata(Utente::class));
+
+        $utenteRepository->add($utente);
 
         $token = $this->authenticator->generateAuthToken($utente);
 

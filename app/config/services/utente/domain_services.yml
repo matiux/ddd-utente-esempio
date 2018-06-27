@@ -2,12 +2,14 @@ services:
 
   dddapp.signup_utente:
     class: UtenteDDDExample\Domain\Service\Utente\SignUpUtente
+    public: false
     arguments:
       - '@dddapp.utente.repository'
       - '@dddapp.utente_hashing_password.service'
 
   dddapp.signin_utente:
     class: UtenteDDDExample\Domain\Service\Utente\SignInUtente
+    public: false
     arguments:
       - '@dddapp.utente.repository'
       - '@dddapp.utente_hashing_password.service'
@@ -15,6 +17,7 @@ services:
 
   dddapp.register_utente:
     class: UtenteDDDExample\Domain\Service\Utente\RegisterUtente
+    public: false
     arguments:
     - '@dddapp.utente.repository'
     - '@dddapp.utente_hashing_password.service'
@@ -22,8 +25,23 @@ services:
 
   dddapp.is_utente_authenticated:
     class: UtenteDDDExample\Domain\Service\Utente\IsUtenteAuthenticated
+    public: false
     arguments:
       - '@dddapp.auth_token_finder'
       - '@dddapp.auth_token_signer'
       - '@dddapp.utente_from_auth_token'
       - '@dddapp.auth_token_storage'
+
+  ddd.current_utente_autenticato:
+    class: UtenteDDDExample\Domain\Service\Utente\CurrentUtenteAutenticato
+    public: false
+    arguments:
+      - '@dddapp.utente_from_auth_token'
+      - '@dddapp.auth_token_storage'
+
+  dddapp.enable_utente:
+    class: UtenteDDDExample\Domain\Service\Utente\EnableUtente
+    public: false
+    arguments:
+      - '@dddapp.utente.repository'
+      - '@ddd.current_utente_autenticato'
