@@ -4,7 +4,7 @@ namespace UtenteDDDExample\Domain\Service\Utente;
 
 use UtenteDDDExample\Domain\Model\Utente\Utente;
 
-class SignUpUtente extends CreateUtente
+class RegisterUtente extends CreateUtente
 {
     protected function createUtente(): Utente
     {
@@ -12,7 +12,7 @@ class SignUpUtente extends CreateUtente
             $this->utenteRepository->nextIdentity(),
             $this->email,
             $this->hashedPassword,
-            'user',
+            $this->ruolo,
             $this->competenze
         );
 

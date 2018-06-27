@@ -56,12 +56,13 @@ class ShowUtenteServiceTest extends DoctrineSupportKernelTestCase
 
         $this->assertInternalType('array', $utente);
         $this->assertNotEmpty($utente);
-        $this->assertCount(5, $utente);
+        $this->assertCount(6, $utente);
         $this->assertArrayHasKey('ruolo', $utente);
         $this->assertArrayHasKey('id', $utente);
         $this->assertArrayHasKey('email', $utente);
         $this->assertArrayHasKey('enabled', $utente);
         $this->assertArrayHasKey('locked', $utente);
+        $this->assertArrayHasKey('competenze', $utente);
     }
 
     /**

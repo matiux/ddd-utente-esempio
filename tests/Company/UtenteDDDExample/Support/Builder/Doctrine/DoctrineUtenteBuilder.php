@@ -9,7 +9,13 @@ class DoctrineUtenteBuilder extends UtenteBuilder
 {
     public function build(): Utente
     {
-        $utente = new Utente($this->utenteId, $this->email, $this->password, $this->ruolo);
+        $utente = Utente::create(
+            $this->utenteId,
+            $this->email,
+            $this->password,
+            $this->ruolo,
+            $this->competenze
+        );
 
         if ($this->enabled) {
             $utente->enable();

@@ -4,13 +4,10 @@ namespace UtenteDDDExample\Application\Service\Utente;
 
 use DDDStarterPack\Application\Service\ApplicationService;
 use UtenteDDDExample\Application\DataTransformer\Utente\UtenteArrayDataTransformer;
-use UtenteDDDExample\Domain\Model\Utente\EmailUtente;
-use UtenteDDDExample\Domain\Model\Utente\Password\NotHashedPasswordUtente;
-use UtenteDDDExample\Domain\Model\Utente\Ruolo;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
 use UtenteDDDExample\Domain\Service\Utente\SignUpUtente;
 
-class CreateUtenteService implements ApplicationService
+class SignUpUtenteService implements ApplicationService
 {
     private $signUpUtente;
     private $utenteArrayDataTransformer;
@@ -28,20 +25,17 @@ class CreateUtenteService implements ApplicationService
         return $this->utenteArrayDataTransformer->write($utente)->read();
     }
 
-    private function doExecute(CreateUtenteRequest $request): Utente
+    private function doExecute(SignUpUtenteRequest $request): Utente
     {
         $email = $request->getEmail();
         $password = $request->getPassword();
-        $ruolo = $request->getRuolo();
-        $enabled = $request->isEnabled();
+        $competenze = $request->getCompetenze();
 
-        $utente = $this->signUpUtente->registra(
-            new EmailUtente($email),
-            new NotHashedPasswordUtente($password),
-            new Ruolo($ruolo)
-        );
+        /**
+         * Qui si potrebbe fare una validazione preliminare sulla richiesta
+         */
 
-        !$enabled ?: $utente->enable();
+        $utente = $this->signUpUtente->create($email, $password, $competenze);
 
         return $utente;
     }

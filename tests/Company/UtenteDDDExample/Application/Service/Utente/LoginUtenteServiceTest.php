@@ -50,7 +50,7 @@ class LoginUtenteServiceTest extends DoctrineSupportKernelTestCase
      * @group utente
      * @group integration
      */
-    public function it_should_login_utente_with_real_authenticator()
+    public function login_utente_with_concrete_authenticator()
     {
         $expiration = self::$kernel->getContainer()->getParameter('auth_expiration');
         $secureString = self::$kernel->getContainer()->getParameter('secret');
@@ -76,12 +76,13 @@ class LoginUtenteServiceTest extends DoctrineSupportKernelTestCase
         $this->assertArrayHasKey('token_expire', $utenteLoggato);
 
         $this->assertInternalType('array', $utenteLoggato['utente']);
-        $this->assertCount(5, $utenteLoggato['utente']);
+        $this->assertCount(6, $utenteLoggato['utente']);
 
         $this->assertArrayHasKey('id', $utenteLoggato['utente']);
         $this->assertArrayHasKey('email', $utenteLoggato['utente']);
         $this->assertArrayHasKey('ruolo', $utenteLoggato['utente']);
         $this->assertArrayHasKey('enabled', $utenteLoggato['utente']);
         $this->assertArrayHasKey('locked', $utenteLoggato['utente']);
+        $this->assertArrayHasKey('competenze', $utenteLoggato['utente']);
     }
 }

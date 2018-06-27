@@ -3,9 +3,6 @@
 namespace Tests\Domain\Service\Utente;
 
 use PHPUnit\Framework\TestCase;
-use UtenteDDDExample\Domain\Model\Utente\EmailUtente;
-use UtenteDDDExample\Domain\Model\Utente\Password\NotHashedPasswordUtente;
-use UtenteDDDExample\Domain\Model\Utente\Ruolo;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
 use UtenteDDDExample\Domain\Model\Utente\UtenteId;
 use UtenteDDDExample\Domain\Model\Utente\UtenteRepository;
@@ -41,10 +38,10 @@ class SignUpUtenteTest extends TestCase
 
         $this->utenteRepository->shouldReceive('byEmail')->andReturn($utente);
 
-        $this->service->registra(
-            new EmailUtente('user@dominio.it'),
-            new NotHashedPasswordUtente('secure_psw'),
-            new Ruolo('user')
+        $this->service->create(
+            'user@dominio.it',
+            'secure_psw',
+            []
         );
     }
 
@@ -58,10 +55,10 @@ class SignUpUtenteTest extends TestCase
         $this->utenteRepository->shouldReceive('nextIdentity')->andReturn(UtenteId::create());
         $this->utenteRepository->shouldReceive('add');
 
-        $utente = $this->service->registra(
-            new EmailUtente('user@dominio.it'),
-            new NotHashedPasswordUtente('secure_psw'),
-            new Ruolo('user')
+        $utente = $this->service->create(
+            'user@dominio.it',
+            'secure_psw',
+            []
         );
 
         $this->assertInstanceOf(Utente::class, $utente);

@@ -6,16 +6,13 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\Client;
-use Tests\Support\Builder\Doctrine\DoctrineUtenteBuilder;
 use Tests\Support\Repository\Doctrine\Dummy\DummyDoctrineRepository;
 use UtenteDDDExample\Domain\Model\Utente\EmailUtente;
 use UtenteDDDExample\Domain\Model\Utente\Ruolo;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
 use UtenteDDDExample\Domain\Model\Utente\UtenteRepository;
-use UtenteDDDExample\Infrastructure\Domain\Model\Utente\AuthToken\Jwt\Lcobucci\JwtLcobucciSigner;
-use UtenteDDDExample\Infrastructure\Domain\Service\Utente\Jwt\Lcobucci\JwtLcobucciUtenteAuthenticator;
 
-class UtenteControllerTest extends WebTestCase
+class UtentePubblicoControllerTest extends WebTestCase
 {
     use DummyDoctrineRepository;
 
@@ -52,6 +49,9 @@ class UtenteControllerTest extends WebTestCase
         $post = [
             'email' => 'utente@dominio.it',
             'password' => 'psw',
+            'competenze' => [
+                'Contare le zampe ai millepiedi'
+            ],
         ];
 
         $this->webClient->request('POST', '/v1/signup', [], [], ['content_type' => 'application/json'], json_encode($post));
@@ -61,13 +61,14 @@ class UtenteControllerTest extends WebTestCase
         $content = json_decode($this->webClient->getResponse()->getContent(), true);
 
         $this->assertInternalType('array', $content);
-        $this->assertCount(5, $content);
+        $this->assertCount(6, $content);
 
         $this->assertArrayHasKey('email', $content);
         $this->assertArrayHasKey('id', $content);
         $this->assertArrayHasKey('ruolo', $content);
         $this->assertArrayHasKey('enabled', $content);
         $this->assertArrayHasKey('locked', $content);
+        $this->assertArrayHasKey('competenze', $content);
 
         $this->assertFalse($content['locked']);
         $this->assertFalse($content['enabled']);
@@ -88,6 +89,7 @@ class UtenteControllerTest extends WebTestCase
         $post = [
             'email' => 'utente@dominio.it',
             'password' => 'psw',
+            'competenze' => []
         ];
 
         $this->webClient->request('POST', '/v1/signup', [], [], ['content_type' => 'application / json'], json_encode($post));
@@ -116,6 +118,7 @@ class UtenteControllerTest extends WebTestCase
         $post = [
             'email' => 'utente@dominio',
             'password' => 'psw',
+            'competenze' => []
         ];
 
         $this->webClient->request('POST', '/v1/signup', [], [], ['content_type' => 'application / json'], json_encode($post));
@@ -127,87 +130,5 @@ class UtenteControllerTest extends WebTestCase
         $this->assertCount(1, $content);
         $this->assertArrayHasKey('message', $content);
         $this->assertEquals('Email non vadida [utente@dominio]', $content['message']);
-    }
-
-    public function post_crea_nuovo_utente_admin()
-    {
-        $post = [
-            'email' => 'utenteadmin@dominio.it',
-            'password' => 'psw',
-            'ruolo' => 'admin',
-            'enabled' => true,
-        ];
-
-        $this->webClient->request('POST', '/v1/signup', [], [], ['content_type' => 'application/json'], json_encode($post));
-
-        $this->assertEquals(200, $this->webClient->getResponse()->getStatusCode());
-
-        $content = json_decode($this->webClient->getResponse()->getContent(), true);
-
-        $this->assertInternalType('array', $content);
-        $this->assertCount(5, $content);
-
-        $this->assertArrayHasKey('email', $content);
-        $this->assertArrayHasKey('id', $content);
-        $this->assertArrayHasKey('ruolo', $content);
-        $this->assertArrayHasKey('enabled', $content);
-        $this->assertArrayHasKey('locked', $content);
-
-        $this->assertFalse($content['locked']);
-        $this->assertTrue($content['enabled']);
-        $this->assertEquals(Ruolo::ROLE_ADMIN, $content['ruolo']);
-        $this->assertEquals('utenteadmin@dominio.it', $content['email']);
-
-        $utente = $this->utenteRepository->byEmail(new EmailUtente('utenteadmin@dominio.it'));
-        $this->assertInstanceOf(Utente::class, $utente);
-    }
-
-    /**
-     * @test
-     * @group utente
-     * @group integration
-     */
-    public function get_show_utente()
-    {
-        $utente = DoctrineUtenteBuilder::anUtente()
-            ->withEnabled(true)
-            ->withEmail('email@dominio.it')
-            ->withPassword('password')
-            ->withLocked(false)
-            ->build();
-
-        $this->utenteRepository->add($utente);
-
-        $authenticator = new JwtLcobucciUtenteAuthenticator(
-            self::$kernel->getContainer()->getParameter('auth_expiration'),
-            new JwtLcobucciSigner(
-                self::$kernel->getContainer()->getParameter('secret')
-            )
-        );
-
-        $token = (string)$authenticator->generateAuthToken($utente);
-
-        $utenteId = $utente->id()->id();
-
-        $headers = [
-            'HTTP_AUTHORIZATION' => "Bearer $token",
-            'content_type' => 'application/json',
-        ];
-
-        $this->webClient->request('GET', "/v1/utente/{$utenteId}", [], [], $headers);
-
-        $this->assertEquals(200, $this->webClient->getResponse()->getStatusCode());
-
-        $content = json_decode($this->webClient->getResponse()->getContent(), true);
-
-        $this->assertInternalType('array', $content);
-        $this->assertCount(5, $content);
-
-        $this->assertArrayHasKey('email', $content);
-        $this->assertArrayHasKey('id', $content);
-        $this->assertArrayHasKey('ruolo', $content);
-        $this->assertArrayHasKey('enabled', $content);
-        $this->assertArrayHasKey('locked', $content);
-
     }
 }

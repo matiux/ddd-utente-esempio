@@ -8,12 +8,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use UtenteDDDExample\Application\Service\Utente\CreateUtenteRequest;
-use UtenteDDDExample\Application\Service\Utente\CreateUtenteService;
+use UtenteDDDExample\Application\Service\Utente\RegisterUtenteRequest;
+use UtenteDDDExample\Application\Service\Utente\RegisterUtenteService;
 
 class CreateUtenteCommand extends ContainerAwareCommand
 {
-    /** @var CreateUtenteService */
+    /** @var RegisterUtenteService */
     private $createUtenteService;
 
     public function __construct(ApplicationService $createUtenteService)
@@ -30,6 +30,8 @@ class CreateUtenteCommand extends ContainerAwareCommand
             ->addArgument('email', InputArgument::REQUIRED, 'Login email')
             ->addArgument('password', InputArgument::REQUIRED, 'Password')
             ->addOption('ruolo', 'r', InputOption::VALUE_OPTIONAL, 'Ruolo', 'admin')
+            ->addOption('abilitato', 'a', InputOption::VALUE_OPTIONAL, 'Utente abilitato', 'true')
+            ->addOption('competenze', 'c', InputOption::VALUE_OPTIONAL, 'Competenze', '')
             ->setDescription('Crea un nuovo utente');
     }
 
@@ -39,7 +41,18 @@ class CreateUtenteCommand extends ContainerAwareCommand
         $password = $input->getArgument('password');
         $ruolo = $input->getOption('ruolo');
 
-        $this->createUtenteService->execute(new CreateUtenteRequest($email, $password, $ruolo, true));
+        $competenze = explode(',', $input->getOption('competenze'));
+        $enabled = $input->getOption('abilitato') === 'true' ? true : false;
+
+        $this->createUtenteService->execute(
+            new RegisterUtenteRequest(
+                $email,
+                $password,
+                $competenze,
+                $ruolo,
+                $enabled
+            )
+        );
 
         $output->write('Utente creato correttamente');
     }

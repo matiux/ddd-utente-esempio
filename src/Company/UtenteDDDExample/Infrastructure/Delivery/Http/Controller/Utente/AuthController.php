@@ -6,25 +6,10 @@ use DDDStarterPack\Domain\Model\Exception\DomainException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use UtenteDDDExample\Application\Service\Utente\CreateUtenteRequest;
 use UtenteDDDExample\Application\Service\Utente\LoginUtenteRequest;
 
 class AuthController extends Controller
 {
-    use CreateUtente;
-
-    public function postSignupUtente(Request $request)
-    {
-        $content = json_decode($request->getContent(), true);
-
-        $email = $content['email'];
-        $password = $content['password'];
-
-        $serviceRequest = new CreateUtenteRequest($email, $password);
-
-        return $this->createUtente($serviceRequest);
-    }
-
     public function postLoginUtente(Request $request)
     {
         $content = json_decode($request->getContent(), true);

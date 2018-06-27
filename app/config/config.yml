@@ -61,6 +61,7 @@ doctrine:
 
         types:
           UtenteId: UtenteDDDExample\Infrastructure\Domain\Model\Utente\Doctrine\DoctrineUtenteId
+          CompetenzaId: UtenteDDDExample\Infrastructure\Domain\Model\Utente\Doctrine\DoctrineCompetenzaId
           EmailUtente: UtenteDDDExample\Infrastructure\Domain\Model\Utente\Doctrine\DoctrineEmailUtenteType
           Ruolo: UtenteDDDExample\Infrastructure\Domain\Model\Utente\Doctrine\DoctrineRuoloType
           HashedPasswordUtente: UtenteDDDExample\Infrastructure\Domain\Model\Utente\Doctrine\DoctrineHashedPasswordUtenteType

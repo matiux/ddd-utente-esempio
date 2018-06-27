@@ -2,19 +2,17 @@
 
 namespace UtenteDDDExample\Application\Service\Utente;
 
-class CreateUtenteRequest
+abstract class CreateUtenteRequest
 {
-    private $email;
-    private $password;
-    private $ruolo;
-    private $enabled;
+    protected $email;
+    protected $password;
+    protected $competenze;
 
-    public function __construct(string $email, string $password, string $ruolo = 'user', bool $enabled = false)
+    public function __construct(string $email, string $password, array $competenze)
     {
         $this->email = $email;
         $this->password = $password;
-        $this->ruolo = $ruolo;
-        $this->enabled = $enabled;
+        $this->competenze = $competenze;
     }
 
     public function getEmail(): string
@@ -27,13 +25,8 @@ class CreateUtenteRequest
         return $this->password;
     }
 
-    public function getRuolo(): string
+    public function getCompetenze(): array
     {
-        return $this->ruolo;
-    }
-
-    public function isEnabled(): bool
-    {
-        return $this->enabled;
+        return $this->competenze;
     }
 }

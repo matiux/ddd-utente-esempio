@@ -2,6 +2,20 @@ UtenteDDDExample\Domain\Model\Utente\Utente:
   type: entity
   table: utenti
   repositoryClass: UtenteDDDExample\Infrastructure\Domain\Model\Utente\Doctrine\DoctrineUtenteRepository
+  manyToMany:
+    competenze:
+      orphanRemoval: true
+      cascade: ["all"]
+      targetEntity: UtenteDDDExample\Domain\Model\Utente\Competenza
+      joinTable:
+        name: competenze_utente
+      joinColumns:
+        utente_id:
+          referencedColumnName: id
+      inversedJoinColumns:
+        competenza_id:
+          referencedColumnName: id
+          unique: true
   id:
     utenteId:
       type: UtenteId

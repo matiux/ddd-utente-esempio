@@ -2,6 +2,7 @@
 
 namespace UtenteDDDExample\Application\DataTransformer\Utente;
 
+use UtenteDDDExample\Domain\Model\Utente\Competenza;
 use UtenteDDDExample\Domain\Model\Utente\Utente;
 
 class UtenteArrayDataTransformer
@@ -18,12 +19,19 @@ class UtenteArrayDataTransformer
 
     public function read(): array
     {
-        return [
+        //$competenze =
+
+        $data = [
             'email' => $this->utente->email(),
             'id' => $this->utente->id()->id(),
             'ruolo' => (string)$this->utente->ruolo(),
             'enabled' => $this->utente->isEnabled(),
             'locked' => $this->utente->isLock(),
+            'competenze' => array_map(function (Competenza $competenza) {
+                return $competenza->array();
+            }, $this->utente->competenze()->getArrayCopy()),
         ];
+
+        return $data;
     }
 }

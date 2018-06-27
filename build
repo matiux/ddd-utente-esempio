@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+NC='\033[0m' # No Color
+GREEN='\033[0;32m'
+BLACK='\033[0;30m'
+GREEN_BACKGROUND='\e[42m'
+NO_BACKGROUND='\e[49m'
+
+clear
+
+echo -e "${BLACK}${GREEN_BACKGROUND}Preparo il database di test${NO_BACKGROUND}${NC}\n"
+
+./sf doctrine:database:drop --env=test --force --if-exists
+./sf doctrine:database:create --env=test
+./sf doctrine:schema:update --env=test --force
+echo -e "${BLACK}${GREEN_BACKGROUND}Preparo il database di prod${NO_BACKGROUND}${NC}\n"
+./sf doctrine:database:drop --env=prod --force --if-exists
+./sf doctrine:database:create --env=prod
+./sf doctrine:schema:update --env=prod --force
+
+echo -e "${BLACK}${GREEN_BACKGROUND}Fixo i permessi della vartella var${NO_BACKGROUND}${NC}\n"
+
+./fix-permissions

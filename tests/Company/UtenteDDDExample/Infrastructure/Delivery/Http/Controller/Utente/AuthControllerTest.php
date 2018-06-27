@@ -199,7 +199,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertArrayHasKey('token_expire', $content);
 
         $this->assertInternalType('array', $content['utente']);
-        $this->assertCount(5, $content['utente']);
+        $this->assertCount(6, $content['utente']);
         $this->assertArrayHasKey('ruolo', $content['utente']);
 
     }

@@ -2,45 +2,27 @@
 
 namespace UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente;
 
+use DDDStarterPack\Application\Exception\ApplicationException;
+use DDDStarterPack\Application\Service\ApplicationService;
+use DDDStarterPack\Domain\Model\Exception\DomainException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use UtenteDDDExample\Application\Service\Utente\CreateUtenteRequest;
-use UtenteDDDExample\Application\Service\Utente\ShowUtenteRequest;
-use UtenteDDDExample\Domain\Model\Utente\Exception\UtenteNotFoundException;
-use UtenteDDDExample\Infrastructure\Delivery\Http\Controller\TokenAuthenticatedController;
 
-class UtenteController extends Controller implements TokenAuthenticatedController
+abstract class UtenteController extends Controller
 {
-    use CreateUtente;
-
-    public function postCreaUtente(Request $request)
+    protected function executeService(ApplicationService $service, $request): JsonResponse
     {
-        $content = json_decode($request->getContent(), true);
-
-        $email = $content['email'];
-        $password = $content['password'];
-        $ruolo = $content['ruolo'];
-        $enabled = $content['enabled'];
-
-        $serviceRequest = new CreateUtenteRequest($email, $password, $ruolo, $enabled);
-
-        return $this->createUtente($serviceRequest);
-    }
-
-    public function getShowUtente(string $utenteId)
-    {
-        $service = $this->get('dddapp.show_utente.service');
-
         try {
 
-            $utente = $service->execute(new ShowUtenteRequest($utenteId));
+            $serviceResponse = $service->execute($request);
 
-            $response = new JsonResponse(json_encode($utente), 200, [], true);
+            $response = $this->prepareResponse($serviceResponse);
+
+            $response = new JsonResponse($response, 200, [], true);
 
             return $response;
 
-        } catch (UtenteNotFoundException $e) {
+        } catch (DomainException | ApplicationException $e) {
 
             return new JsonResponse(json_encode(['message' => $e->getMessage()]), $e->getCode(), [], true);
 
@@ -48,5 +30,18 @@ class UtenteController extends Controller implements TokenAuthenticatedControlle
 
             throw $exception;
         }
+    }
+
+    private function prepareResponse($serviceResponse): string
+    {
+        if (is_array($serviceResponse)) {
+            $response = $serviceResponse;
+        }
+
+        if (is_bool($serviceResponse)) {
+            $response = ['status' => $serviceResponse];
+        }
+
+        return json_encode($response);
     }
 }

@@ -1,15 +1,21 @@
 services:
-  dddapp.create_utente.service:
-    class: UtenteDDDExample\Application\Service\Utente\CreateUtenteService
+  dddapp.sign_up_utente.service:
+    class: UtenteDDDExample\Application\Service\Utente\SignUpUtenteService
     arguments:
-      - '@dddapp.signup_utente'
-      - '@dddapp.utente_array.data_transformer'
+    - '@dddapp.signup_utente'
+    - '@dddapp.utente_array.data_transformer'
+
+  dddapp.register_utente.service:
+    class: UtenteDDDExample\Application\Service\Utente\RegisterUtenteService
+    arguments:
+    - '@dddapp.register_utente'
+    - '@dddapp.utente_array.data_transformer'
 
   dddapp.login_utente.service:
     class: UtenteDDDExample\Application\Service\Utente\LoginUtenteService
     arguments:
-      - '@dddapp.signin_utente'
-      - '@dddapp.utente_autenticato_array.data_transformer'
+    - '@dddapp.signin_utente'
+    - '@dddapp.utente_autenticato_array.data_transformer'
 
   dddapp.utente_array.data_transformer:
     class: UtenteDDDExample\Application\DataTransformer\Utente\UtenteArrayDataTransformer
@@ -22,11 +28,17 @@ services:
   dddapp.show_utente.service:
     class: UtenteDDDExample\Application\Service\Utente\ShowUtenteService
     arguments:
-      - '@dddapp.utente.repository'
-      - '@dddapp.utente_array.data_transformer'
+    - '@dddapp.utente.repository'
+    - '@dddapp.utente_array.data_transformer'
 
-  dddapp.transactional.create_utente.service:
+  dddapp.transactional.sign_up_utente.service:
     class: DDDStarterPack\Application\Service\TransactionalApplicationService
     arguments:
-      - '@dddapp.create_utente.service'
-      - '@dddapp.doctrine_transactional_session'
+    - '@dddapp.sign_up_utente.service'
+    - '@dddapp.doctrine_transactional_session'
+
+  dddapp.transactional.register_utente.service:
+    class: DDDStarterPack\Application\Service\TransactionalApplicationService
+    arguments:
+    - '@dddapp.register_utente.service'
+    - '@dddapp.doctrine_transactional_session'

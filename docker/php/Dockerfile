@@ -1,4 +1,4 @@
-FROM matiux/php:7.1-fpm-2.0.0
+FROM matiux/php:7.2-fpm-1.0.0
 
 RUN echo 'alias test="vendor/bin/phpunit"' >> /home/utente/.bashrc && \
     echo 'alias sf="bin/console"' >> /home/utente/.bashrc  && \

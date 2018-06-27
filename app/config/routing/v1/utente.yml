@@ -1,6 +1,6 @@
 dddapp_v1_signup_utente:
   path: /signup
-  defaults: { _controller: UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente\AuthController::postSignupUtente }
+  defaults: { _controller: UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente\UtentePubblicoController::postSignupUtente }
   methods: [POST]
   requirements:
     _format: json
@@ -14,7 +14,7 @@ dddapp_v1_login_utente:
 
 dddapp_v1_show_utente:
   path: /utente/{utenteId}
-  defaults: { _controller: UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente\UtenteController::getShowUtente }
+  defaults: { _controller: UtenteDDDExample\Infrastructure\Delivery\Http\Controller\Utente\UtentePrivatoController::getShowUtente }
   methods: [GET]
   requirements:
     _format: json

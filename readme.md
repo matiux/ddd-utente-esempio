@@ -6,7 +6,7 @@ L'applicazione funziona all'interno di un conainer docker. Preparare l'ambiente 
 
 #### Clone del progetto
 ```
-git clone git@github.com:matiux/UserDDDExample.git && cd UserDDDExample
+git clone git@github.com:matiux/UtenteDDDExample.git && cd UtenteDDDExample
 ```
 
 #### Variabili d'ambiente
@@ -28,12 +28,17 @@ Per ulteriori informazioni controllare il readme in `./docker/redme.md`
 #### Entrare nel container PHP per lo sviluppo
 ```
 ./dc exec --user utente php bash
-composer install
+~~composer install~~
+./build
 ```
 Il container php è configurato per far comunicare Xdebug con PhpStorm
 
 ## Accessi
 
+- host db: servicedb
+- name db: app_db
+- user db: root
+- password db: root 
 * `localhost:8080` risponde nginx
 * `localhost:8081` phpmyadmin
 * All'interno del container PHP, il database è raggiungibile con l'host `servicedb` alla porta `3306`
@@ -49,18 +54,9 @@ Il container php è configurato per far comunicare Xdebug con PhpStorm
 ## Test
 All'interno del container PHP
 ```
-test
-test --group utebnte
-test --group unit
+test (Esegue tutti i test)
 test --group utente
-```
-
-## Fix permessi Symfony:
-
-Da dentro al container php:
-
-```
-./fix-permissions
+test --group integration
 ```
 
 Gestione utente
@@ -69,14 +65,13 @@ Gestione utente
 ## Creazione utente da shell
 Gli utenti creeati da shell vengono creati già abilitati `enabled = 1`
 
-#### Creazione utente admin 
+#### Creazione utenti da shell
 ```
+Crea un admin
 ./sf dddapp:create:utente utente@dominio.it password
-```
-#### Creazione utente specificando il ruolo (di default è admin)
-```
-./sf dddapp:create:utente utente@dominio.it password -r admin
-./sf dddapp:create:utente utente@dominio.it password -r user
+
+Crea un utente disabilitato
+./sf dddapp:create:utente user2@email.it password --ruolo user --abilitato false
 ```
 ## Signup utente da client
 Gli utente che fanno il signup da client vengono creati disabilitati `enabled = 0`

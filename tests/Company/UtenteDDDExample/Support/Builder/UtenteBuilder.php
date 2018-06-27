@@ -16,6 +16,7 @@ abstract class UtenteBuilder implements EntityBuilder
     protected $email;
     protected $password;
     protected $ruolo;
+    protected $competenze = [];
     protected $enabled = true;
     protected $locked = false;
 
@@ -27,7 +28,7 @@ abstract class UtenteBuilder implements EntityBuilder
         $this->passwordHashing = new BasicPasswordHashing();
 
         $this->utenteId = UtenteId::create();
-        $this->email = new EmailUtente('user@dominio.it');
+        $this->email = 'user@dominio.it';
         $this->password = new HashedPasswordUtente('$2y$10$jaY.eUrLO5gfKCTBr6MH.uk6OL8bofDONdJ.JjhCgUl.vksuS43L.'); //in chiaro: password
         $this->ruolo = new Ruolo('user');
     }

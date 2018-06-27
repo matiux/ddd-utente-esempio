@@ -13,6 +13,13 @@ services:
       - '@dddapp.utente_hashing_password.service'
       - '@dddapp.utente_authenticator.service'
 
+  dddapp.register_utente:
+    class: UtenteDDDExample\Domain\Service\Utente\RegisterUtente
+    arguments:
+    - '@dddapp.utente.repository'
+    - '@dddapp.utente_hashing_password.service'
+    - '@dddapp.utente_authenticator.service'
+
   dddapp.is_utente_authenticated:
     class: UtenteDDDExample\Domain\Service\Utente\IsUtenteAuthenticated
     arguments:

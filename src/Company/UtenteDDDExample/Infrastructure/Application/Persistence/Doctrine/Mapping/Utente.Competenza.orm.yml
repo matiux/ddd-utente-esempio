@@ -1,0 +1,12 @@
+UtenteDDDExample\Domain\Model\Utente\Competenza:
+  type: entity
+  table: competenze
+  id:
+    competenzaId:
+      type: CompetenzaId
+      column: id
+  fields:
+    name:
+      type: string
+      nullable: false
+
